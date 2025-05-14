@@ -46,13 +46,14 @@ int hash_function2(struct hash_table* hash_table, char* key) {
    * to modify it to create an improved hash function: 
    */
    unsigned long hash = 0;
-    int c;
+    int i = 0;
 
-    while ((c = *key++)) {
-        hash = c + (hash << 6) + (hash << 16) - hash;
+    while (key[i] != '\0') {
+        hash ^= (key[i] << (i % 4) * 8);  // XOR folding
+        i++;
     }
 
-    return hash % hash_table->size;
+    return (int)(hash % hash_table->size);
 }
 
 struct hash_table* hash_table_create(int array_size) {
