@@ -46,12 +46,14 @@ int hash_function2(struct hash_table* hash_table, char* key) {
    * to modify it to create an improved hash function: 
    */
 
-  unsigned long hash = 0;
-  int p = 31;
-  for (int i = 0; key[i] != '\0'; i++) {
-    hash = (hash * p + key[i]) % hash_table->size;
-  }
-  return (int) hash;
+    unsigned long hash = 5381;  // seed
+    int c;
+
+    while ((c = *key++)) {
+        hash = ((hash << 5) + hash) + c;  // hash * 33 + c
+    }
+
+    return hash % hash_table->size;
 }
 
 struct hash_table* hash_table_create(int array_size) {
