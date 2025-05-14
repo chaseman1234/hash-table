@@ -45,12 +45,11 @@ int hash_function2(struct hash_table* hash_table, char* key) {
    * Currently this is the same as hash_function2, but your assignment is 
    * to modify it to create an improved hash function: 
    */
-
-    unsigned long hash = 5381;  // seed
+   unsigned long hash = 0;
     int c;
 
     while ((c = *key++)) {
-        hash = ((hash << 5) + hash) + c;  // hash * 33 + c
+        hash = c + (hash << 6) + (hash << 16) - hash;
     }
 
     return hash % hash_table->size;
